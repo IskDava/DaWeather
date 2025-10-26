@@ -1,0 +1,16 @@
+{
+  "name": "davaweather",
+  "version": "0.0.0",
+  "description": "The best weather app",
+  "main": "script.js",
+  "scripts": {
+    "test": "node  --watch --env-file=.env src/server.js"
+  },
+  "keywords": [],
+  "author": "IskDava",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0",
+    "package": "^1.0.1"
+  }
+}
