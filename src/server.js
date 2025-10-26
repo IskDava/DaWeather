@@ -15,6 +15,25 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.listen(PORT, "0.0.0.0", () => {
+async function getCordsByLocation(city, apikey) {
+    const response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${apikey}`);
+    const data = await response.json();
+    const result = {
+        lat: data[0].lat,
+        lon: data[0].lon
+    };
+    return result;
+}
+
+app.get('/api/getWeather', async (req, res) => {
+    const city = req.query.loc;
+    const apikey = process.env.OPENWEATHER_API;
+    
+    const cords = getCordsByLocation(city, apikey);
+
+
+});
+
+app.listen(PORT, () => {
     console.log(`Started on port ${PORT}!`);
 });
