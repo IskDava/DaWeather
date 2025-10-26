@@ -29,9 +29,22 @@ app.get('/api/getWeather', async (req, res) => {
     const city = req.query.loc;
     const apikey = process.env.OPENWEATHER_API;
     
-    const cords = getCordsByLocation(city, apikey);
+    const cords = await getCordsByLocation(city, apikey);
 
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${cords.lat}&lon=${cords.lon}&appid=${apikey}`);
 
+    const data = await response.json();
+
+    const weather = {
+        temp: data.main.temp,
+        feels_like: data.main.feels_like,
+        type: data.weather[0].main,
+        description: data.weather[0].description,
+        lat: cords.lat,
+        lon: cords.lon
+    };
+
+    res.send(weather);
 });
 
 app.listen(PORT, () => {
